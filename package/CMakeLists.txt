@@ -13,30 +13,24 @@ IF( NOT QT_IS_STATIC )
     INCLUDE( InstallRequiredSystemLibraries )
     ### FIXME ###
 
-#    INSTALL(
-#        FILES "${QT_LIBRARY_DIR}/QtCored4.dll" "${QT_LIBRARY_DIR}/QtGuid4.dll" "${QT_LIBRARY_DIR}/QtXml4.dll" "${QT_LIBRARY_DIR}/QtMultimediad4.dll" "${QT_LIBRARY_DIR}/QtNetworkd4.dll" "${QT_LIBRARY_DIR}/QtOpenGLd4.dll" "${QT_LIBRARY_DIR}/QtSqld4.dll" "${QT_LIBRARY_DIR}/QtSvgd4.dll" "${QT_LIBRARY_DIR}/QtWebKitd4.dll" "${QTMOBILITY_LIBRARY_DIR}/QtMultimediaKitd1.dll"
-#        DESTINATION "${BIN_INSTALL_DIR}"
-#        CONFIGURATIONS Debug
-#        COMPONENT RUNTIME
-#    )
-#    INSTALL(
-#        FILES "${QT_LIBRARY_DIR}/QtCore4.dll" "${QT_LIBRARY_DIR}/QtGui4.dll" "${QT_LIBRARY_DIR}/QtXml4.dll" "${QT_LIBRARY_DIR}/QtMultimedia4.dll" "${QT_LIBRARY_DIR}/QtNetwork4.dll" "${QT_LIBRARY_DIR}/QtOpenGL4.dll" "${QT_LIBRARY_DIR}/QtSql4.dll" "${QT_LIBRARY_DIR}/QtSvg4.dll" "${QT_LIBRARY_DIR}/QtWebKit4.dll" "${QTMOBILITY_LIBRARY_DIR}/QtMultimediaKit1.dll"
-#        DESTINATION "${BIN_INSTALL_DIR}"
-#        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
-#        COMPONENT RUNTIME
-#    )
-#    INSTALL(
-#        FILES "${QT_PLUGINS_DIR}/imageformats/qjpeg4.dll" "${QT_PLUGINS_DIR}/imageformats/qgif4.dll"
-#        DESTINATION "${BIN_INSTALL_DIR}/imageformats"
-#        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
-#        COMPONENT RUNTIME
-#    )
-#    INSTALL(
-#        FILES "${QTMOBILITY_PLUGINS_DIR}/mediaservice/dsengine.dll" "${QTMOBILITY_PLUGINS_DIR}/mediaservice/qtmedia_audioengine.dll"
-#        DESTINATION "${BIN_INSTALL_DIR}/mediaservice"
-#        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
-#        COMPONENT RUNTIME
-#    )
+    INSTALL(
+        FILES "${QT_LIBRARY_DIR}/icuin51.dll" "${QT_LIBRARY_DIR}/icuuc51.dll" "${QT_LIBRARY_DIR}/icudt51.dll" "${QT_LIBRARY_DIR}/Qt5Core.dll" "${QT_LIBRARY_DIR}/Qt5Gui.dll" "${QT_LIBRARY_DIR}/Qt5Widgets.dll" "${QT_LIBRARY_DIR}/Qt5Multimedia.dll" "${QT_LIBRARY_DIR}/Qt5Network.dll" "${QT_LIBRARY_DIR}/Qt5WebKit.dll" "${QT_LIBRARY_DIR}/Qt5Quick.dll" "${QT_LIBRARY_DIR}/Qt5Qml.dll" "${QT_LIBRARY_DIR}/Qt5V8.dll" "${QT_LIBRARY_DIR}/Qt5Sensors.dll" "${QT_LIBRARY_DIR}/Qt5WebKitWidgets.dll" "${QT_LIBRARY_DIR}/Qt5MultimediaWidgets.dll" "${QT_LIBRARY_DIR}/Qt5PrintSupport.dll"
+        DESTINATION "${BIN_INSTALL_DIR}"
+        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        COMPONENT RUNTIME
+    )
+    INSTALL(
+        FILES "${QT_PLUGINS_DIR}/imageformats/qjpeg.dll" "${QT_PLUGINS_DIR}/imageformats/qgif.dll"
+        DESTINATION "${BIN_INSTALL_DIR}/imageformats"
+        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        COMPONENT RUNTIME
+    )
+	INSTALL(
+        FILES "${QT_PLUGINS_DIR}/platforms/qwindows.dll"
+        DESTINATION "${BIN_INSTALL_DIR}/platforms"
+        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        COMPONENT RUNTIME
+    )
 	
 ENDIF( NOT QT_IS_STATIC )
 
