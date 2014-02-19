@@ -33,7 +33,7 @@ INCLUDE_DIRECTORIES(
 )
 
 # This line tells cmake to create the Test program.
-ADD_EXECUTABLE(${PROJECT_NAME} ${ireport_UIC_Srcs} ${ireport_Srcs})
+ADD_EXECUTABLE(${PROJECT_NAME} WIN32 ${ireport_UIC_Srcs} ${ireport_Srcs})
 
 # Link the required libraries
 QT5_USE_MODULES(${PROJECT_NAME} Widgets WebKit WebKitWidgets)
