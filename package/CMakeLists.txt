@@ -7,6 +7,10 @@ ENDIF( NOT WIN32 )
 # --------------------------------------------------------------------
 # Install
 # --------------------------------------------------------------------
+FIND_PATH(QT_LIBRARY_DIR Qt5Core.dll)
+FIND_PATH(QT_PLUGINS_DIR imageformats/qjpeg.dll)
+FIND_PATH(ICU_LIBRARY_DIR icuin52.dll)
+FIND_PATH(SSL_LIBRARY_DIR libeay32.dll)
 IF( NOT QT_IS_STATIC )
     ### FIXME Using QT_IS_STATIC to determine static system library is INCORRECT ###
     SET( CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION . )
@@ -14,20 +18,26 @@ IF( NOT QT_IS_STATIC )
     ### FIXME ###
 
     INSTALL(
-        FILES "${QT_LIBRARY_DIR}/icuin51.dll" "${QT_LIBRARY_DIR}/icuuc51.dll" "${QT_LIBRARY_DIR}/icudt51.dll" "${QT_LIBRARY_DIR}/Qt5Core.dll" "${QT_LIBRARY_DIR}/Qt5Gui.dll" "${QT_LIBRARY_DIR}/Qt5Widgets.dll" "${QT_LIBRARY_DIR}/Qt5Multimedia.dll" "${QT_LIBRARY_DIR}/Qt5Network.dll" "${QT_LIBRARY_DIR}/Qt5WebKit.dll" "${QT_LIBRARY_DIR}/Qt5Quick.dll" "${QT_LIBRARY_DIR}/Qt5Qml.dll" "${QT_LIBRARY_DIR}/Qt5V8.dll" "${QT_LIBRARY_DIR}/Qt5Sensors.dll" "${QT_LIBRARY_DIR}/Qt5WebKitWidgets.dll" "${QT_LIBRARY_DIR}/Qt5MultimediaWidgets.dll" "${QT_LIBRARY_DIR}/Qt5PrintSupport.dll"
-        DESTINATION "${BIN_INSTALL_DIR}"
+        FILES "${SSL_LIBRARY_DIR}/libeay32.dll" "${SSL_LIBRARY_DIR}/ssleay32.dll"
+        DESTINATION .
         CONFIGURATIONS Release MinSizeRel RelWithDebInfo
         COMPONENT RUNTIME
     )
-    INSTALL(
-        FILES "${QT_PLUGINS_DIR}/imageformats/qjpeg.dll" "${QT_PLUGINS_DIR}/imageformats/qgif.dll"
-        DESTINATION "${BIN_INSTALL_DIR}/imageformats"
+	INSTALL(
+        FILES "${ICU_LIBRARY_DIR}/icuin52.dll" "${ICU_LIBRARY_DIR}/icuuc52.dll" "${ICU_LIBRARY_DIR}/icudt52.dll"
+        DESTINATION .
+        CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        COMPONENT RUNTIME
+    )
+	INSTALL(
+        FILES "${QT_LIBRARY_DIR}/Qt5Core.dll" "${QT_LIBRARY_DIR}/Qt5Gui.dll" "${QT_LIBRARY_DIR}/Qt5Widgets.dll" "${QT_LIBRARY_DIR}/Qt5Multimedia.dll" "${QT_LIBRARY_DIR}/Qt5Network.dll" "${QT_LIBRARY_DIR}/Qt5WebKit.dll" "${QT_LIBRARY_DIR}/Qt5Quick.dll" "${QT_LIBRARY_DIR}/Qt5Qml.dll" "${QT_LIBRARY_DIR}/Qt5OpenGL.dll" "${QT_LIBRARY_DIR}/Qt5Sensors.dll" "${QT_LIBRARY_DIR}/Qt5WebKitWidgets.dll" "${QT_LIBRARY_DIR}/Qt5MultimediaWidgets.dll" "${QT_LIBRARY_DIR}/Qt5PrintSupport.dll" "${QT_LIBRARY_DIR}/Qt5V8.dll" "${QT_LIBRARY_DIR}/Qt5Sql.dll"
+        DESTINATION .
         CONFIGURATIONS Release MinSizeRel RelWithDebInfo
         COMPONENT RUNTIME
     )
 	INSTALL(
         FILES "${QT_PLUGINS_DIR}/platforms/qwindows.dll"
-        DESTINATION "${BIN_INSTALL_DIR}/platforms"
+        DESTINATION platforms
         CONFIGURATIONS Release MinSizeRel RelWithDebInfo
         COMPONENT RUNTIME
     )
