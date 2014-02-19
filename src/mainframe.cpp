@@ -57,7 +57,7 @@ void MainFrame::slotIconChanged()
 
 void MainFrame::slotLinkClicked(const QUrl & url)
 {
-
+	Q_UNUSED(url);
 }
 
 void MainFrame::slotLoadFinished(bool ok)
@@ -96,7 +96,7 @@ void MainFrame::slotLoadFinished(bool ok)
 
 void MainFrame::slotLoadProgress(int progress)
 {
-
+	Q_UNUSED(progress);
 }
 
 void MainFrame::slotLoadStarted()
@@ -111,17 +111,17 @@ void MainFrame::slotSelectionChanged()
 
 void MainFrame::slotStatusBarMessage(const QString & text)
 {
-
+	Q_UNUSED(text);
 }
 
 void MainFrame::slotTitleChanged(const QString & title)
 {
-
+	Q_UNUSED(title);
 }
 
 void MainFrame::slotUrlChanged(const QUrl & url)
 {
-
+	Q_UNUSED(url);
 }
 
 void MainFrame::on_pushButtonRefresh_clicked()
