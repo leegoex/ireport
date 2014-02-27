@@ -25,6 +25,9 @@ public:
 		StepDone,
 	};
 
+protected:
+	void gotoNext();
+
 private slots:
 	void	slotIconChanged();
 	void	slotLinkClicked(const QUrl & url);

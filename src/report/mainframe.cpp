@@ -1,13 +1,13 @@
 ﻿#include "mainframe.h"
 #include "ui_mainframe.h"
 
-#include <QWebView>
-#include <QWebFrame>
-#include <QWebElement>
-#include <QUrl>
-#include <QMessageBox>
-#include <QTimer>
-#include <QDatetime>
+#include <QtWebKitWidgets/QWebView>
+#include <QtWebKitWidgets/QWebFrame>
+#include <QtWebKit/QWebElement>
+#include <QtCore/QUrl>
+#include <QtCore/QTimer>
+#include <QtCore/QDatetime>
+#include <QtWidgets/QMessageBox>
 
 struct IucreUrlAddress
 {
@@ -17,7 +17,7 @@ struct IucreUrlAddress
 };
 
 QString IucreUrlAddress::neteaseUrl = QString("https://8.163.com");
-QString IucreUrlAddress::alipayUrl = QString("https://financeprod.alipay.com/fund/index.htm");
+QString IucreUrlAddress::alipayUrl = QString("http://www.thfund.com.cn/column.dohsmode=searchtopic&pageno=0&channelid=2&categoryid=2435&childcategoryid=2436.htm");
 QString IucreUrlAddress::tencentUrl = QString("http://www.chinaamc.com/yingxiao/2013/caifubao/index.html?tjmb=000000;tjly=98");
 
 MainFrame::MainFrame(QWidget *parent)
@@ -40,14 +40,35 @@ MainFrame::MainFrame(QWidget *parent)
 // 	connect(m_webview, SIGNAL(titleChanged(const QString&)), this, SLOT(slotTitleChanged(const QString&)));
 // 	connect(m_webview, SIGNAL(urlChanged(const QUrl&)), this, SLOT(slotUrlChanged(const QUrl&)));
 
-	on_pushButtonRefresh_clicked();
-
-//	setCentralWidget(m_webview);
+	gotoNext();
 }
 
 MainFrame::~MainFrame()
 {
     delete m_ui;
+}
+
+void MainFrame::gotoNext()
+{
+	switch (m_step)
+	{
+	case StepNotStart:
+	case StepDone:
+		on_pushButtonRefresh_clicked();
+		break;
+	case StepNetease:
+		m_step = StepAlipay;
+		m_webview->load(QUrl(IucreUrlAddress::alipayUrl));
+		break;
+	case StepAlipay:
+		m_step = StepTencent;
+		m_webview->load(QUrl(IucreUrlAddress::tencentUrl));
+		break;
+	case StepTencent:
+		m_step = StepDone;
+		m_ui->pushButtonRefresh->setEnabled(true);
+		break;
+	}
 }
 
 void MainFrame::slotIconChanged()
@@ -139,47 +160,48 @@ void MainFrame::on_pushButtonRefresh_clicked()
 void MainFrame::slotGetIucre_netease()
 {
 	QWebFrame* frame = m_webview->page()->mainFrame();
-	if (!frame) {
-		return;
+	if (frame != NULL) {
+		QWebElement e = frame->findFirstElement(QString("em[title]"));
+		if (e.isNull()) {
+			QMessageBox::information(this, tr("Netease"), tr("Get Iucre Failed"));
+		} else {
+			m_ui->lineEditNetease->setText(e.toPlainText());
+		}
 	}
-	QWebElement e = frame->findFirstElement(QString("em[title]"));
-	if (e.isNull()) {
-		QMessageBox::information(this, tr("Netease"), tr("Get Iucre Failed"));
-	} else {
-		m_ui->lineEditNetease->setText(e.toPlainText());
-	}
-	m_step = StepAlipay;
-	m_webview->load(QUrl(IucreUrlAddress::alipayUrl));
+	
+	gotoNext();
 }
 
 void MainFrame::slotGetIucre_alipay()
 {
 	QWebFrame* frame = m_webview->page()->mainFrame();
-	if (!frame) {
-		return;
+	if (frame != NULL) {
+		QWebElement e = frame->findFirstElement(QString("div[class=\"fenji\"]>table>tbody"));
+		if (e.isNull()) {
+			QMessageBox::information(this, tr("Alipay"), tr("Get Iucre Failed"));
+		} else {
+			e = e.firstChild().nextSibling().firstChild().nextSibling().nextSibling().nextSibling().firstChild();
+			if (!e.isNull())
+				m_ui->lineEditAlipay->setText(e.toPlainText());
+			else
+				QMessageBox::information(this, tr("Alipay"), tr("Get Iucre Failed"));
+		}
 	}
-	QWebElement e = frame->findFirstElement(QString("em[class=\"nianhualv\"]"));
-	if (e.isNull()) {
-		QMessageBox::information(this, tr("Alipay"), tr("Get Iucre Failed"));
-	} else {
-		m_ui->lineEditAlipay->setText(e.toPlainText());
-	}
-	m_step = StepTencent;
-	m_webview->load(QUrl(IucreUrlAddress::tencentUrl));
+	
+	gotoNext();
 }
 
 void MainFrame::slotGetIucre_tencent()
 {
 	QWebFrame* frame = m_webview->page()->mainFrame();
-	if (!frame) {
-		return;
+	if (frame != NULL) {
+		QWebElement e = frame->findFirstElement(QString("div[class=\"shouyimingcheng2\"]"));
+		if (e.isNull()) {
+			QMessageBox::information(this, tr("Tencent"), tr("Get Iucre Failed"));
+		} else {
+			m_ui->lineEditTencent->setText(e.toPlainText());
+		}
 	}
-	QWebElement e = frame->findFirstElement(QString("div[class=\"shouyimingcheng2\"]"));
-	if (e.isNull()) {
-		QMessageBox::information(this, tr("Tencent"), tr("Get Iucre Failed"));
-	} else {
-		m_ui->lineEditTencent->setText(e.toPlainText());
-	}
-	m_step = StepDone;
-	m_ui->pushButtonRefresh->setEnabled(true);
+	
+	gotoNext();
 }
